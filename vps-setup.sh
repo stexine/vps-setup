@@ -56,7 +56,7 @@ clone_docker_setup () {
     
     mkdir -p $HOME_DIR
     git clone https://${GIT_SERVER}/stexine/wxpanel.git $HOME_DIR
-    sed -i.bak "s|SERVER_HOST|$HOST|; s|SERVER_DOMAIN|$DOMAIN|" $HOME_DIR/src/tpl/setup.sh $HOME_DIR/setup.sh
+    sed -e "s|SERVER_HOST|$HOST|; s|SERVER_DOMAIN|$DOMAIN|; s|SERVER_SHELL|zsh|;" $HOME_DIR/src/tpl/setup.sh > $HOME_DIR/setup.sh
     cd $HOME_DIR
     ./setup.sh
 }
