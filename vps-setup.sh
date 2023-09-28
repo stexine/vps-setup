@@ -1,7 +1,7 @@
 #!/bin/bash
 
 GIT_SERVER=git.xpin.io
-FRP_VERSION=0.48.0
+FRP_VERSION=0.51.3
 SWAP_FILE_SIZE=1G
 
 # ------------- functions --------------
@@ -32,8 +32,8 @@ install_frp () {
     echo "Install FRP  ..."
     curl -sSL https://github.com/fatedier/frp/releases/download/v$FRP_VERSION/frp_${FRP_VERSION}_linux_amd64.tar.gz | tar zxvf - -C /usr/local
     mv /usr/local/frp_${FRP_VERSION}_linux_amd64 /usr/local/frp
-    wget -c https://git.xpin.io/stexine/vps-setup/raw/master/src/tpl/frpc.ini -O /usr/local/frp/frpc.ini
-    wget -c https://git.xpin.io/stexine/vps-setup/raw/master/src/tpl/frpc.service -O /etc/systemd/system/
+    wget -c https://raw.githubusercontent.com/stexine/vps-setup/master/src/tpl/frpc.ini -O /usr/local/frp/frpc.ini
+    wget -c https://raw.githubusercontent.com/stexine/vps-setup/master/src/tpl/frpc.service -O /etc/systemd/system/frpc.service
     sed -i.bak "s|<<FRP_USER>>|$HOST|g; s|<<FRP_SERVER>>|$FRP_SERVER|g; s|<<FRP_POST>>|$FRP_PORT|g; s|<<FRP_TOKEN>>|$FRP_KEY|g;" /usr/local/frp/frpc.ini > /usr/local/frp/frpc.ini
     systemctl start frpc
     systemctl enable frpc
@@ -171,12 +171,9 @@ fi
 curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
 echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
 
-# --------------- install certbot ----------------
-# add-apt-repository -y ppa:certbot/certbot
-
 echo "Install docker, certbot ..."
 apt-get update
-apt-get install docker-ce docker-compose certbot -y
+apt-get install docker-ce docker-compose -y
 
 if [[ $PORTAINER == "y" ]]
 then
