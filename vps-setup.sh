@@ -133,7 +133,7 @@ then
     fi
 
     echo -n "Enter FRP Server KEY: "
-    read FRP_KEY    
+    read FRP_KEY
 fi
 
 echo -n "Install BBR Plus? (y/n): "
