@@ -127,7 +127,7 @@ then
     echo -n "Enter FRP Server port (8097): "
     read FRP_PORT
 
-    if [[ $FRP_PORT == ""]]
+    if [[ $FRP_PORT == "" ]]
     then
         FRP_PORT=8097
     fi
